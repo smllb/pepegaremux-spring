@@ -9,19 +9,22 @@ import org.springframework.stereotype.Repository;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
+
 @Repository
 public class YoutubeRepository {
 
-    public PlaylistItemListResponse queryDataFromPlaylist(String API_KEY) throws GeneralSecurityException, IOException {
+    public PlaylistItemListResponse queryDataFromPlaylistPage(String API_KEY, String id, String pageToken) throws GeneralSecurityException, IOException {
+
         YouTube youtubeService = new YouTube.Builder(GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(), null)
                 .build();
 
         YouTube.PlaylistItems.List request = youtubeService.playlistItems()
                 .list("snippet,status")
                 .setFields("items(status(privacyStatus),snippet(title,resourceId)),nextPageToken")
-                .setPlaylistId("PLDIoUOhQQPlXr63I_vwF9GD8sAKh77dWU")
+                .setPlaylistId(id)
                 .setMaxResults(50L)
-                .setKey(API_KEY);
+                .setKey(API_KEY)
+                .setPageToken(pageToken);
 
         return request.execute();
 

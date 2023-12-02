@@ -31,7 +31,7 @@ public class AppraiseUrlService {
         String urlId = null;
 
         Pattern videoPattern = Pattern.compile("(?:v=|\\/v\\/|\\/embed\\/|\\.be\\/|v=.*&v=)([^&\\n?]+)");
-        Pattern playlistPattern = Pattern.compile("(?<=list=)[^&]+");
+        Pattern playlistPattern = Pattern.compile("((?<=list=)[^&]+)");
         Matcher matcher = null;
 
         switch (urlType) {
@@ -50,10 +50,8 @@ public class AppraiseUrlService {
         return urlId;
 
     }
-    public String appraiseUrl(String url) throws IOException, GeneralSecurityException {
+    public UrlResultlDTO appraiseUrl(String url) throws IOException, GeneralSecurityException {
 
-        String urlType = null;
-        String urlId;
         UrlResultlDTO urlResultlDTO = new UrlResultlDTO();
 
         Map<String, String> urlResult = new HashMap<>();
@@ -65,12 +63,12 @@ public class AppraiseUrlService {
             urlResultlDTO.setType(UrlType.VIDEO.toString());
 
         } else {
-            return "Couldn't appraise URL:  " + url;
+            return null;
         }
-        urlResultlDTO.setId(getUrlId(url, urlResultlDTO.getType()));
 
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(urlResultlDTO);
+        urlResultlDTO.setId(getUrlId(url, urlResultlDTO.getType()));
+        return urlResultlDTO;
+
 
     };
 

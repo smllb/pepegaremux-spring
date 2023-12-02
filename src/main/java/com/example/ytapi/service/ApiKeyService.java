@@ -27,10 +27,12 @@ public class ApiKeyService {
     }
 
     public ApiKeyDTO getApiKeyDTO() throws IOException {
-        ApiKeyEntity apiKey = apiKeyRepository.getApiKey();
-        return apiKeyMapper.convertEntityToDTO(apiKey);
+        ApiKeyEntity apiKeyEntity = apiKeyRepository.getApiKey();
+        ApiKeyDTO apiKeyDTO = apiKeyMapper.convertEntityToDTO(apiKeyEntity);
 
-    };
+        return apiKeyDTO;
+
+    }
 
     public String fetchApiKey() {
 
